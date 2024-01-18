@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2023 a las 20:52:07
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 7.4.29
+-- Tiempo de generación: 18-01-2024 a las 16:08:57
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,10 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `db_restaurante`
+-- Base de datos: `db_restaurante2`
 --
-CREATE DATABASE IF NOT EXISTS `db_restaurante` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `db_restaurante`;
 
 -- --------------------------------------------------------
 
@@ -32,18 +30,29 @@ USE `db_restaurante`;
 CREATE TABLE `tbl_camareros` (
   `id_user` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(40) NOT NULL,
   `correo` varchar(50) NOT NULL,
   `contrasena` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_camareros`
 --
 
-INSERT INTO `tbl_camareros` (`id_user`, `nombre`, `correo`, `contrasena`) VALUES
-(1, 'Julia S', 'julia@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
-(2, 'Jorge', 'jorge@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
-(3, 'Oscar', 'oscar@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm');
+INSERT INTO `tbl_camareros` (`id_user`, `nombre`, `apellido`, `correo`, `contrasena`) VALUES
+(1, 'Julia S', 'Jimenez', 'julia@gmail.com', '$2a$12$u.LXUtVsYpUfUw9XSW2Mg.Jg1n1UR5rHjyFnocq0VKw5GWyQLOSf2'),
+(2, 'Jorge', 'Lay', 'jorge@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(3, 'Oscar', 'Lopez', 'oscar@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(4, 'Oscar', 'Lerida', 'alberto@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(5, 'Nerea', 'Lerida', 'nerea@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(6, 'Julian', 'Romero', 'julian@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(7, 'Juan', 'Vanegas', 'juan@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(8, 'Pedro', 'Picapiedras', 'pedro@gmail.com', '$2y$10$qoqGHk2cmOumJNQ7KHPE4eyJgNr0rlykUvLIE86llfPXDz4RBsrvm'),
+(9, 'ef', 'ver', 'vre', 'ev'),
+(10, 'errve', 'vrev', 'vvre@gmail.com', '$2y$10$aq3NDQbCXYMYcg20hcHX4u/6dcfUFLfo.OLPfdULfSNTQ6XVahs4G'),
+(11, 'Sergi', 'Lopez', 'werfv3ev4rv4g4@gmail.com', '$2y$10$tYclB8LK2A12kSHERd76eOOyWaC1WbSxNcJ6KJuELch2M935LBabG'),
+(12, '123', '', 'oscar@gmail.c', '$2y$10$Jla8G7d4ZDvs30CxNXEV3.JpViAFOU/gMiWm1lyTJ4hRmqtN4QMLC'),
+(13, 'Roberto', 'Gimeno', 'hola@gmail.com', '$2y$10$y7BRwjNV6dn71rcpusTUK.5QQO.9n6i51lqJ.vB0ao91u/cj9rB1a');
 
 -- --------------------------------------------------------
 
@@ -57,7 +66,7 @@ CREATE TABLE `tbl_mesas` (
   `mesa_ocupada` tinyint(1) DEFAULT 0,
   `numero_mesa` int(11) DEFAULT NULL,
   `fecha_entrada` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_mesas`
@@ -73,7 +82,8 @@ INSERT INTO `tbl_mesas` (`id_mesa`, `id_sala`, `mesa_ocupada`, `numero_mesa`, `f
 (7, 4, 0, 1, NULL),
 (8, 7, 0, 2, NULL),
 (9, 5, 0, 1, NULL),
-(10, 9, 0, 2, NULL);
+(10, 9, 0, 2, NULL),
+(11, 6, 0, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -87,7 +97,7 @@ CREATE TABLE `tbl_registros_mesas` (
   `id_user` int(11) DEFAULT NULL,
   `fecha_hora_entrada` timestamp NULL DEFAULT NULL,
   `fecha_hora_salida` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_registros_mesas`
@@ -171,7 +181,10 @@ INSERT INTO `tbl_registros_mesas` (`id_registro_mesas`, `id_mesa`, `id_user`, `f
 (75, 9, 1, '2023-11-26 19:45:49', '2023-11-26 19:46:19'),
 (76, 1, 1, '2023-11-26 19:46:22', '2023-11-26 19:46:27'),
 (77, 4, 1, '2023-11-26 19:49:05', '2023-11-26 19:49:16'),
-(78, 6, 3, '2023-11-26 19:51:48', '2023-11-26 19:51:52');
+(78, 6, 3, '2023-11-26 19:51:48', '2023-11-26 19:51:52'),
+(79, 7, 3, '2023-11-27 16:53:15', NULL),
+(80, 9, 1, '2024-01-17 16:33:40', NULL),
+(81, 3, 2, '2024-01-17 18:47:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -185,7 +198,14 @@ CREATE TABLE `tbl_registros_sillas` (
   `id_user` int(11) DEFAULT NULL,
   `fecha_hora_entrada` timestamp NULL DEFAULT NULL,
   `fecha_hora_salida` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_registros_sillas`
+--
+
+INSERT INTO `tbl_registros_sillas` (`id_registro_silla`, `id_silla`, `id_user`, `fecha_hora_entrada`, `fecha_hora_salida`) VALUES
+(1, 1, 1, '2024-01-17 16:57:13', '2024-01-17 16:57:16');
 
 -- --------------------------------------------------------
 
@@ -197,7 +217,7 @@ CREATE TABLE `tbl_salas` (
   `id_sala` int(11) NOT NULL,
   `ubicacion_sala` varchar(50) NOT NULL,
   `capacidad` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_salas`
@@ -225,14 +245,14 @@ CREATE TABLE `tbl_sillas` (
   `silla_ocupada` tinyint(1) DEFAULT 0,
   `id_mesa` int(11) DEFAULT NULL,
   `fecha_entrada` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_sillas`
 --
 
 INSERT INTO `tbl_sillas` (`id_silla`, `silla_ocupada`, `id_mesa`, `fecha_entrada`) VALUES
-(1, 0, 1, NULL),
+(1, 0, 1, '2024-01-17 16:57:20'),
 (2, 0, 1, NULL),
 (3, 0, 2, NULL),
 (4, 0, 2, NULL),
@@ -277,7 +297,13 @@ INSERT INTO `tbl_sillas` (`id_silla`, `silla_ocupada`, `id_mesa`, `fecha_entrada
 (43, 0, 10, NULL),
 (44, 0, 10, NULL),
 (45, 0, 10, NULL),
-(46, 0, 10, NULL);
+(46, 0, 10, NULL),
+(53, 0, 11, NULL),
+(54, 0, 11, NULL),
+(55, 0, 11, NULL),
+(56, 0, 11, NULL),
+(57, 0, 11, NULL),
+(58, 0, 11, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -333,25 +359,25 @@ ALTER TABLE `tbl_sillas`
 -- AUTO_INCREMENT de la tabla `tbl_camareros`
 --
 ALTER TABLE `tbl_camareros`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_mesas`
 --
 ALTER TABLE `tbl_mesas`
-  MODIFY `id_mesa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_mesa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_registros_mesas`
 --
 ALTER TABLE `tbl_registros_mesas`
-  MODIFY `id_registro_mesas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_registro_mesas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_registros_sillas`
 --
 ALTER TABLE `tbl_registros_sillas`
-  MODIFY `id_registro_silla` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_registro_silla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_salas`
@@ -363,7 +389,7 @@ ALTER TABLE `tbl_salas`
 -- AUTO_INCREMENT de la tabla `tbl_sillas`
 --
 ALTER TABLE `tbl_sillas`
-  MODIFY `id_silla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_silla` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- Restricciones para tablas volcadas

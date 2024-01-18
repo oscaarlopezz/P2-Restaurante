@@ -29,6 +29,14 @@ if (!isset($_SESSION['id_user'])) {
 <body id="login">
     <h2 id="userTitulo">Hola <?php echo $nom; ?> <span class="csvBtn"><a href="./registros.php"
                 class="regBtn">Historico</a></span></h2>
+                <?php
+// Obtener la fecha actual
+$fecha_actual2 = date("Y/m/d H:i:s");
+$fecha_actual = strval($fecha_actual2);
+
+
+?>
+
     <div class="InfoContainer">
         <h1 id="infoTitulo">Pasa el ratón por la mesa para saber su información</h1>
         <!-- Disponibilidad -->
@@ -98,11 +106,12 @@ if (!isset($_SESSION['id_user'])) {
                         // Crear un elemento p dentro del div
                         var p = document.createElement("p");
                         p.style.display = "none";
-                        if (mesa.salida === null) {
-                            p.textContent = mesa.sala + "-" + mesa.numero_sillas + "-" + 1;
-                        }else{
-                            p.textContent = mesa.sala + "-" + mesa.numero_sillas + "-" + 0;
-                        }
+                        // if (mesa.salida === null) {
+                            var fechaActual = <?php echo json_encode($fecha_actual); ?>;
+                        p.textContent = mesa.mesa + "-" + mesa.sala + "-" + mesa.numero_sillas + "-" + mesa.entrada + "-" + mesa.salida + "-" + fechaActual;
+                        // }else{
+                        //     p.textContent = mesa.sala + "-" + mesa.numero_sillas + "-" + 0;
+                        // }
 
                         // Agregar los elementos al div
                         divMesa.appendChild(button);
