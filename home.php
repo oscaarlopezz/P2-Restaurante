@@ -27,15 +27,7 @@ if (!isset($_SESSION['id_user'])) {
 </head>
 
 <body id="login">
-    <h2 id="userTitulo">Hola <?php echo $nom; ?> <span class="csvBtn"><a href="./registros.php"
-                class="regBtn">Historico</a></span></h2>
-                <?php
-// Obtener la fecha actual
-$fecha_actual2 = date("Y/m/d H:i:s");
-$fecha_actual = strval($fecha_actual2);
-
-
-?>
+    <h2 id="userTitulo">Hola <?php echo $nom; ?> <span class="csvBtn"><a href="./registros.php" class="regBtn">Historico</a></span></h2>
 
     <div class="InfoContainer">
         <h1 id="infoTitulo">Pasa el ratón por la mesa para saber su información</h1>
@@ -45,6 +37,8 @@ $fecha_actual = strval($fecha_actual2);
         <p id="info" class="text-Center"></p>
         <!-- sillas disponibles -->
         <p id="sillasDisp" class="text-Center"></p>
+        <!-- Estado -->
+        <p id="estado" class="text-Center"></p>
 
     </div>
     <div id="reservasContainer">
@@ -107,8 +101,7 @@ $fecha_actual = strval($fecha_actual2);
                         var p = document.createElement("p");
                         p.style.display = "none";
                         // if (mesa.salida === null) {
-                            var fechaActual = <?php echo json_encode($fecha_actual); ?>;
-                        p.textContent = mesa.mesa + "-" + mesa.sala + "-" + mesa.numero_sillas + "-" + mesa.entrada + "-" + mesa.salida + "-" + fechaActual;
+                        p.textContent = mesa.mesa + "-" + mesa.sala + "-" + mesa.numero_sillas + "-" + mesa.entrada + "-" + mesa.salida;
                         // }else{
                         //     p.textContent = mesa.sala + "-" + mesa.numero_sillas + "-" + 0;
                         // }
