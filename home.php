@@ -87,6 +87,13 @@ if (!isset($_SESSION['id_user'])) {
                         button.value = "Mesa " + mesa.mesa;
                         button.classList.add("mesa-btn");
 
+                        var a = document.createElement("a");
+                        a.href = "./proc/reservar.php?mesa=" + mesa.mesa;
+                        a.name = mesa.mesa;
+                        a.value = mesa.mesa;
+                        a.classList.add("mesa-btn");
+                        button.appendChild(a);
+
                         // Crear un elemento img dentro del button
                         var img = document.createElement("img");
                         img.classList.add("mesa" + mesa.mesa);
@@ -95,7 +102,7 @@ if (!isset($_SESSION['id_user'])) {
                         img.srcset = "";
 
                         // Agregar el elemento img al button
-                        button.appendChild(img);
+                        a.appendChild(img);
 
                         // Crear un elemento p dentro del div
                         var p = document.createElement("p");
