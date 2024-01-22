@@ -54,6 +54,8 @@ if (!isset($_SESSION['id_user'])) {
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
+
             var xhr = new XMLHttpRequest();
             var mapa = document.getElementById("reservasContainer");
             
@@ -64,6 +66,7 @@ if (!isset($_SESSION['id_user'])) {
 
                     // Limpiar el contenido actual del mapa
                     mapa.innerHTML = "";
+                
 
                     // Iterar sobre las mesas y agregarlas al mapa
                     for (var i = 0; i < mesas.length; i++) {
@@ -88,7 +91,12 @@ if (!isset($_SESSION['id_user'])) {
                         button.classList.add("mesa-btn");
 
                         var a = document.createElement("a");
-                        a.href = "./proc/reservar.php?mesa=" + mesa.mesa;
+                        a.id = "reservar";
+                        if (mesa.salida === null){
+                            a.href = "./proc/reservar.php?mesa=" + mesa.mesa + "&disp=OCUPADO";   
+                        }else{
+                            a.href = "./proc/reservar.php?mesa=" + mesa.mesa + "&disp=" + mesa.disponibilidad;
+                        }
                         a.name = mesa.mesa;
                         a.value = mesa.mesa;
                         a.classList.add("mesa-btn");
@@ -131,6 +139,13 @@ if (!isset($_SESSION['id_user'])) {
             
             xhr.send();
         });
+
+        // Ejemplo de uso
+        var valor = obtenerValorContenidoDisp();
+        console.log("Valor obtenido:", valor);
+
+
+
     </script>
 </body>
 

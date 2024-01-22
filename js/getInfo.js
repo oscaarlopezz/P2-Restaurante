@@ -1,3 +1,4 @@
+// ------------------------------------------
 container = document.querySelector(".InfoContainer");
 // console.log(container);
 function Ocultar(){
@@ -58,23 +59,27 @@ function Informacion(mesa){
     console.log("Entrada: " + fechaEntrada);
     console.log("Salida: " + fechaSalida);
     console.log("Actual: " + fechaActual);
+    var reserva = document.getElementById("reservar");
     // Verificar si la fechaActual es más reciente que fechaEntrada y más antigua que fechaSalida
     if (fechaActual > fechaEntrada && fechaSalida === "Actualmente") {
         // Tu código aquí si se cumple la condición
         console.log("Condición 1 cumplida");
         container.children[1].innerText = "OCUPADO";
         container.children[1].style.color = "red";
+        // reserva.href += "&ocu=1"
     } else {
         if (fechaActual > fechaEntrada && fechaActual < fechaSalida) {
             // Tu código aquí si se cumple la condición
             console.log("Condición 2 cumplida");
             container.children[1].innerText = "OCUPADO";
             container.children[1].style.color = "red";
+            // reserva.href += "&ocu=1"
         } else {
             // Tu código aquí si la condición no se cumple
             console.log("Condición no cumplida");
             container.children[1].innerText = "DISPONIBLE";
             container.children[1].style.color = "green";
+            // reserva.href += "&ocu=0"
         }
     }
     // if(info[2]==1){

@@ -6,7 +6,7 @@ include_once("conexion.php");
 if (!isset($_SESSION['id_user'])) {
     header('Location: ./index.php?sesion=nosesion');
     exit();
-} else {
+}else {
     $id = $_SESSION['id_user'];
     $mesa2 = $_GET['mesa'];
     $mesa = intval($mesa2);
@@ -52,13 +52,22 @@ if (!isset($_SESSION['id_user'])) {
     </div>
 
     <script>
+        function alerta()
+            {
+            var opcion = confirm("Deseas desocupar el recurso número <?php echo $mesa; ?>?");
+            if (opcion == true) {
+                window.location.href = "./desocupar.php?mesa=<?php echo $mesa; ?>";
+            } else {
+                window.location.href = "../home.php";
+            }
+        }
         function reservarAhora() {
             // Obtener la fecha actual
             var fechaActual = new Date();
             console.log("Fecha Actual: " + fechaActual);
 
             // Aquí puedes enviar la fechaActual por AJAX
-            enviarDatosPorAjax({ fecha: fechaReserva, mesa: <?php echo $mesa; ?> });
+            enviarDatosPorAjax({ fecha: fechaActual, mesa: <?php echo $mesa; ?> });
         }
 
         function reservarEnFechaEspecifica() {
@@ -101,6 +110,11 @@ if (!isset($_SESSION['id_user'])) {
             }
         }
     </script>
+    <?php 
+    if ($_GET['disp'] == 'OCUPADO') {
+        echo "<script>alerta();</script>";
+    }
+?>
 </body>
 </html>
 <?php
