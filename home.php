@@ -13,6 +13,13 @@ if (!isset($_SESSION['id_user'])) {
     $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt1->execute();
     $nom = $stmt1->fetchColumn();
+    if (empty($nom)) {
+        $sqlMesa = "SELECT user as nombre FROM tbl_admin WHERE id = :id";
+        $stmt1 = $conn->prepare($sqlMesa);
+        $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt1->execute();
+        $nom = $stmt1->fetchColumn();
+    }
 }
 ?>
 
@@ -27,7 +34,7 @@ if (!isset($_SESSION['id_user'])) {
 </head>
 
 <body id="login">
-    <h2 id="userTitulo">Hola <?php echo $nom; ?> <span class="csvBtn"><a href="./registros.php" class="regBtn">Historico</a></span></h2>
+    <h2 id="userTitulo">Hola <?php echo $nom; ?> <span class="csvBtn"><a href="./proc/crud_user.php" class="regBtn">CRUD</a><a href="./registros.php" class="regBtn">Historico</a></span></h2>
 
     <div class="InfoContainer">
         <h1 id="infoTitulo">Pasa el ratón por la mesa para saber su información</h1>
@@ -93,9 +100,9 @@ if (!isset($_SESSION['id_user'])) {
                         var a = document.createElement("a");
                         a.id = "reservar";
                         if (mesa.salida === null){
-                            a.href = "./proc/reservar.php?mesa=" + mesa.mesa + "&disp=OCUPADO";   
+                            a.href = "./proc/reservar.php?mesa=" + mesa.mesa + "&disp=OCUPADO&entrada=" + mesa.entrada;   
                         }else{
-                            a.href = "./proc/reservar.php?mesa=" + mesa.mesa + "&disp=" + mesa.disponibilidad;
+                            a.href = "./proc/reservar.php?mesa=" + mesa.mesa + "&disp=" + mesa.disponibilidad + "&entrada=" + mesa.entrada;
                         }
                         a.name = mesa.mesa;
                         a.value = mesa.mesa;

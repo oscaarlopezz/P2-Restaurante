@@ -1,0 +1,25 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+html, body {
+    margin: 0;
+}
+.crud {
+    width: 100%;
+    height: 100vh;
+}
+.tabla {
+    height: 100vh;
+    width: 60%;
+    overflow-y: scroll;
+    float: left;
+}
+
+#container {
+    width: 100%;
+    height: 30vh;
+    float: left;
+}

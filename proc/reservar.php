@@ -9,6 +9,7 @@ if (!isset($_SESSION['id_user'])) {
 }else {
     $id = $_SESSION['id_user'];
     $mesa2 = $_GET['mesa'];
+    $entrada = $_GET['entrada'];
     $mesa = intval($mesa2);
     $sqlMesa = "SELECT nombre FROM tbl_camareros WHERE id_user = :id";
     $stmt1 = $conn->prepare($sqlMesa);
@@ -56,7 +57,7 @@ if (!isset($_SESSION['id_user'])) {
             {
             var opcion = confirm("Deseas desocupar el recurso número <?php echo $mesa; ?>?");
             if (opcion == true) {
-                window.location.href = "./desocupar.php?mesa=<?php echo $mesa; ?>";
+                window.location.href = "./desocupar.php?mesa=<?php echo $mesa; ?>&entrada=<?php echo $entrada; ?>";
             } else {
                 window.location.href = "../home.php";
             }
@@ -112,10 +113,9 @@ if (!isset($_SESSION['id_user'])) {
     </script>
     <?php 
     if ($_GET['disp'] == 'OCUPADO') {
-        echo "<script>alerta();</script>";
+            echo "<script>alerta();</script>";
+        }
     }
 ?>
 </body>
 </html>
-<?php
-}

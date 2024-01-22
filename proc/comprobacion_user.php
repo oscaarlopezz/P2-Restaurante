@@ -54,7 +54,19 @@
         $stmt->execute();
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        if (empty($result['correo'])) {
+            // Consulta SQL para verificar el correo
+            $sql = "SELECT user as correo, pass as contrasena, id as id_user FROM tbl_admin WHERE user = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $correo, PDO::PARAM_STR);
+            $stmt->execute();
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo $result['contrasena'];
+            $hash = password_hash($contrasena, PASSWORD_BCRYPT);
+            echo $hash;
+            // die();
+        }
         if ($result && password_verify($contrasena, $result['contrasena'])) {
             $_SESSION['correo'] = $result['correo'];
             $_SESSION['id_user'] = $result['id_user'];

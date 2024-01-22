@@ -25,26 +25,43 @@ if (!isset($_SESSION['id_user'])) {
         // Obtiene la fecha directamente del array sin intentar convertirla
         $fecha = $data['fecha'];
         $mesa = $data['mesa'];
+        // Obtener la fecha actual
+        $fechaActual = date('Y-m-d');
 
-        // Puedes hacer otras validaciones o manipulaciones con $fecha si es necesario
+        // Supongamos que $fecha es tu variable con la fecha a comparar
 
-        // Muestra los datos recibidos
-        echo "Fecha recibida: " . $fecha . " en la mesa: " . $mesa;
-        $sql = "INSERT INTO tbl_registros_mesas (id_mesa, fecha_hora_entrada) VALUES (:id_mesa, :fecha_entrada)";
+        // Convertir las fechas a timestamp
+        $timestampFechaActual = strtotime($fechaActual);
+        $timestampFecha = strtotime($fecha);
 
-        // Preparar la consulta
-        $stmt = $conn->prepare($sql);
+        // Comparar las fechas
+        if ($timestampFecha < $timestampFechaActual) {
+            // La fecha es anterior a la actual, redirigir a reserva.php
+            header("Location: reserva.php");
+            exit(); // Asegurarse de que el script se detenga después de la redirección
+        } else {
+            // La fecha es igual o posterior a la actual, continuar con el resto del código
 
-        // Asociar parámetros
-        $stmt->bindParam(':id_mesa', $mesa, PDO::PARAM_INT);
-        $stmt->bindParam(':fecha_entrada', $fecha, PDO::PARAM_STR);
+            // Puedes hacer otras validaciones o manipulaciones con $fecha si es necesario
 
-        // Ejecutar la consulta
-        try {
-            $stmt->execute();
-            echo "Nuevo registro de mesa insertado con éxito.";
-        } catch (PDOException $e) {
-            die("Error al insertar el registro de mesa: " . $e->getMessage());
+            // Muestra los datos recibidos
+            echo "Fecha recibida: " . $fecha . " en la mesa: " . $mesa;
+            $sql = "INSERT INTO tbl_registros_mesas (id_mesa, fecha_hora_entrada) VALUES (:id_mesa, :fecha_entrada)";
+
+            // Preparar la consulta
+            $stmt = $conn->prepare($sql);
+
+            // Asociar parámetros
+            $stmt->bindParam(':id_mesa', $mesa, PDO::PARAM_INT);
+            $stmt->bindParam(':fecha_entrada', $fecha, PDO::PARAM_STR);
+
+            // Ejecutar la consulta
+            try {
+                $stmt->execute();
+                echo "Nuevo registro de mesa insertado con éxito.";
+            } catch (PDOException $e) {
+                die("Error al insertar el registro de mesa: " . $e->getMessage());
+            }
         }
     } else {
         // Si no es una solicitud POST, muestra un mensaje de error
