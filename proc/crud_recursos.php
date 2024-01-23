@@ -12,18 +12,19 @@
 <body>
     <div class="crud" id="crud">
         <div id="container">
-        <form id="formularioModificar" onsubmit="event.preventDefault(); enviarDatos();">
+        <form id="formularioModificar_r" onsubmit="event.preventDefault(); enviarDatos();">
         </form>
         </div>
         <div class="tabla">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido</th>
-                        <th scope="col">Correo</th>
-                        <th scope="col">Tipo</th>
+                        <th scope="col">Mesa Núm.</th>
+                        <th scope="col">Sala</th>
+                        <th scope="col">Disponibilidad</th>
+                        <th scope="col">Núm. Sillas</th>
+                        <th scope="col">Últ. Entrada</th>
+                        <th scope="col">Últ. Salida</th>
                         <th scope="col">Modificar</th>
                         <th scope="col">Eliminar</th>
                     </tr>
@@ -77,15 +78,20 @@
                     document.getElementById("usuarios").innerHTML = "";
 
                     // Iterar sobre los usuarios y agregar filas a la tabla
-                    usuarios.forEach(function (usuario) {
+                    usuarios.forEach(function (mesa) {
                         var fila = "<tr>";
-                        fila += "<th scope='row'>" + usuario.id_user + "</th>";
-                        fila += "<td>" + usuario.nombre + "</td>";
-                        fila += "<td>" + usuario.apellido + "</td>";
-                        fila += "<td>" + usuario.correo + "</td>";
-                        fila += "<td>" + usuario.tipo + "</td>";
-                        fila += "<td><button onclick=modificar(" + usuario.id_user + ") style='text-decoration: none; color: red;'>✎</button></td>";
-                        fila += "<td><button onclick=alerta(" + usuario.id_user + ") style='text-decoration: none; color: red;'>⌧</button></td>";
+                        fila += "<th scope='row'>" + mesa.mesa + "</th>";
+                        fila += "<td>" + mesa.sala + "</td>";
+                        fila += "<td>" + mesa.disponibilidad + "</td>";
+                        fila += "<td>" + mesa.numero_sillas + "</td>";
+                        fila += "<td>" + mesa.entrada + "</td>";
+                        if (mesa.salida === null){
+                            fila += "<td>OCUPADO</td>";
+                        }else{
+                            fila += "<td>" + mesa.salida + "</td>";
+                        }
+                        fila += "<td><button onclick=modificar(" + mesa.mesa + ") style='text-decoration: none; color: red;'>✎</button></td>";
+                        fila += "<td><button onclick=alerta(" + mesa.mesa + ") style='text-decoration: none; color: red;'>⌧</button></td>";
                         fila += "</tr>";
 
                         document.getElementById("usuarios").innerHTML += fila;
@@ -98,7 +104,7 @@
         };
 
         // Configurar y enviar la solicitud AJAX
-        xhr.open("GET", "camareros.php", true);
+        xhr.open("GET", "get_mesas.php", true);
         xhr.send();
     }
 
@@ -111,7 +117,7 @@
         crud = document.getElementById("crud");
         crud.appendChild(button);
         var cont = document.getElementById("container");
-        var form = document.getElementById("formularioModificar");
+        var form = document.getElementById("formularioModificar_r");
         // Añadir estilos al contenedor
         if (id == "close") {
             cont.style.width = "0";
@@ -123,7 +129,7 @@
             cont.style.float = "left";
         }
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "f_mod.php", true);
+        xhr.open("POST", "f_mod_r.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
@@ -155,25 +161,23 @@
     }
     function enviarDatos() {
     // Obtener los valores de los campos
-    var id = document.getElementById("id_camarero").value;
-    var nombre = document.getElementById("nombre").value;
-    var apellido = document.getElementById("apellido").value;
-    var correo = document.getElementById("correo").value;
-    var tipo = document.getElementById("tipo").value;
-    var contrasena = document.getElementById("contrasena").value;
+    var mesa = document.getElementById("mesa").value;
+    var sala = document.getElementById("sala").value;
+    var sillas = document.getElementById("sillas").value;
+    var entrada = document.getElementById("entrada").value;
+    var salida = document.getElementById("salida").value;
 
     // Crear un objeto FormData para enviar los datos
     var formData = new FormData();
-    formData.append("id", id);
-    formData.append("nombre", nombre);
-    formData.append("apellido", apellido);
-    formData.append("correo", correo);
-    formData.append("tipo", tipo);
-    formData.append("contrasena", contrasena);
+    formData.append("mesa", mesa);
+    formData.append("sala", sala);
+    formData.append("sillas", sillas);
+    formData.append("entrada", entrada);
+    formData.append("salida", salida);
 
     // Crear una instancia de XMLHttpRequest
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "modificar.php", true);
+    xhr.open("POST", "modificar_r.php", true);
 
     // Configurar el manejo de eventos para la respuesta
     xhr.onreadystatechange = function () {
@@ -194,7 +198,7 @@
     // Enviar la solicitud con los datos del formulario
     xhr.send(formData);
 }
-document.getElementById("formularioModificar").addEventListener("submit", function (event) {
+document.getElementById("formularioModificar_r").addEventListener("submit", function (event) {
     event.preventDefault(); // Evitar el envío convencional del formulario
     enviarDatos();
 });

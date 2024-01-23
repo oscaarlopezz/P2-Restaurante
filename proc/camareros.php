@@ -9,7 +9,7 @@ if (!isset($_SESSION['id_user'])) {
 }else {
     try{
         // Sentencia SQL
-        $sql = "SELECT * FROM tbl_camareros";
+        $sql = "SELECT c.id_user, c.nombre, c.apellido, c.correo, c.contrasena, t.tipo FROM tbl_camareros c JOIN tbl_tipo t ON c.tipo_id = t.id ORDER BY id_user ASC;";
 
         // Preparar la consulta
         $stmt = $conn->prepare($sql);

@@ -23,15 +23,21 @@ if (!isset($_SESSION['id_user'])) {
             echo "Error";
         }else{
             try {
-                $sql = "UPDATE `tbl_camareros` SET `nombre` = :nombre, `apellido` = :apellido, `correo` = :correo, `contrasena` = :contrasena WHERE `tbl_camareros`.`id_user` = :id";
-                $stmt3 = $conn->prepare($sql);
-                $stmt3->bindParam(':nombre', $_POST['nombre'], PDO::PARAM_STR);
-                $stmt3->bindParam(':apellido', $_POST['apellido'], PDO::PARAM_STR);
-                $stmt3->bindParam(':correo', $_POST['correo'], PDO::PARAM_STR);
-                $stmt3->bindParam(':contrasena', $_POST['contrasena'], PDO::PARAM_STR);
-                $stmt3->bindParam(':id', $_POST['id'], PDO::PARAM_INT);
-                $stmt3->execute();
-                echo "actualizado con exitos";
+                $tipo = intval($_POST['tipo']);
+                if ($tipo < 4 && $tipo > 0) {
+                    $sql = "UPDATE `tbl_camareros` SET `nombre` = :nombre, `apellido` = :apellido, `correo` = :correo, `contrasena` = :contrasena, `tipo_id` = :tipo WHERE `tbl_camareros`.`id_user` = :id";
+                    $stmt3 = $conn->prepare($sql);
+                    $stmt3->bindParam(':nombre', $_POST['nombre'], PDO::PARAM_STR);
+                    $stmt3->bindParam(':apellido', $_POST['apellido'], PDO::PARAM_STR);
+                    $stmt3->bindParam(':correo', $_POST['correo'], PDO::PARAM_STR);
+                    $stmt3->bindParam(':contrasena', $_POST['contrasena'], PDO::PARAM_STR);
+                    $stmt3->bindParam(':tipo', $tipo, PDO::PARAM_STR);
+                    $stmt3->bindParam(':id', $_POST['id'], PDO::PARAM_INT);
+                    $stmt3->execute();
+                    echo "actualizado con exitos";
+                }else {
+                    echo "Debes de seleccionar un puesto valido";
+                }
             }catch(PDOException $e) {
                echo $e->getMessage();
                echo "FAIL";

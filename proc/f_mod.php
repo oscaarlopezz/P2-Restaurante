@@ -10,7 +10,7 @@ try {
     }
     if ($id > 0) {
         // Sentencia SQL
-        $sql = "SELECT * FROM tbl_camareros WHERE id_user = :id";
+        $sql = "SELECT c.id_user, c.nombre, c.apellido, c.correo, c.contrasena, t.tipo FROM tbl_camareros c JOIN tbl_tipo t ON c.tipo_id = t.id WHERE id_user = :id";
 
         // Preparar la consulta
         $stmt = $conn->prepare($sql);
@@ -45,6 +45,35 @@ try {
         </div>
         </div>
         <div class="row">
+        <div class="col">
+                <label for="Tipo">Tipo</label>
+                <select class="form-control" id="tipo">
+                    <?php 
+                    // Sentencia SQL
+                    $sql2 = "SELECT * FROM `tbl_tipo`";
+
+                    // Preparar la consulta
+                    $stmt2 = $conn->prepare($sql2);
+
+                    // Ejecutar la consulta
+                    $stmt2->execute();
+
+                    // Obtener todos los resultados como un array asociativo
+                    $resultados2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+                    // Iterar sobre los resultados e imprimir las opciones
+                    foreach ($resultados2 as $tipo) {
+                        $tipoSeleccionado = $resultados['tipo'];
+                        if ($tipo['tipo'] == $tipoSeleccionado) {
+                            echo "<option value='" . $tipo['id'] . "' selected>" . $tipo['tipo'] . "</option>";
+                        }else{
+                            echo "<option value='" . $tipo['id'] . "'>" . $tipo['tipo'] . "</option>";
+                        }
+                    }
+
+                    ?>
+                </select>
+            </div>
             <div class="col">
                 <label for="Correo">Correo</label>
                 <input type="text" class="form-control" id="correo" placeholder="Email" value="<?php echo $resultados['correo']; ?>">
