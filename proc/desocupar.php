@@ -37,6 +37,7 @@ if (!isset($_SESSION['id_user'])) {
         // Verificar si se actualizó al menos una fila
         if ($rowsAffected > 0) {
             echo "Actualización exitosa. Se actualizaron $rowsAffected fila(s).";
+            header('Location: ../home.php');
         } else {
             echo "No se realizaron actualizaciones. Puede que no haya coincidencias con los criterios de la consulta.";
         }

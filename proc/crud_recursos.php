@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Tu Página con Bootstrap</title>
+    <title>Recursos</title>
 
     <!-- Enlaces CDN de Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/crud.css">
 </head>
 <body>
+    <a href="crud_user.php">Usuarios</a>
     <div class="crud" id="crud">
         <div id="container">
         <form id="formularioModificar_r" onsubmit="event.preventDefault(); enviarDatos();">
         </form>
         </div>
-        <div class="tabla">
+        <div class="tabla" id="tabla">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -82,7 +83,12 @@
                         var fila = "<tr>";
                         fila += "<th scope='row'>" + mesa.mesa + "</th>";
                         fila += "<td>" + mesa.sala + "</td>";
-                        fila += "<td>" + mesa.disponibilidad + "</td>";
+                        if (mesa.salida === null){
+                            fila += "<td>OCUPADO</td>";
+                        }else{
+                            fila += "<td>" + mesa.disponibilidad + "</td>";
+                        }
+                        // fila += "<td>" + mesa.disponibilidad + "</td>";
                         fila += "<td>" + mesa.numero_sillas + "</td>";
                         fila += "<td>" + mesa.entrada + "</td>";
                         if (mesa.salida === null){
@@ -117,16 +123,19 @@
         crud = document.getElementById("crud");
         crud.appendChild(button);
         var cont = document.getElementById("container");
+        var tabla = document.getElementById("tabla");
         var form = document.getElementById("formularioModificar_r");
         // Añadir estilos al contenedor
         if (id == "close") {
             cont.style.width = "0";
             cont.style.height = "0";
+            tabla.style.height = "100vh";
             cont.style.float = "none";
         }else{
             cont.style.width = "100%";
             cont.style.height = "30vh";
             cont.style.float = "left";
+            tabla.style.height = "70vh";
         }
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "f_mod_r.php", true);
@@ -164,16 +173,16 @@
     var mesa = document.getElementById("mesa").value;
     var sala = document.getElementById("sala").value;
     var sillas = document.getElementById("sillas").value;
-    var entrada = document.getElementById("entrada").value;
-    var salida = document.getElementById("salida").value;
+    // var entrada = document.getElementById("entrada").value;
+    // var salida = document.getElementById("salida").value;
 
     // Crear un objeto FormData para enviar los datos
     var formData = new FormData();
     formData.append("mesa", mesa);
     formData.append("sala", sala);
     formData.append("sillas", sillas);
-    formData.append("entrada", entrada);
-    formData.append("salida", salida);
+    // formData.append("entrada", entrada);
+    // formData.append("salida", salida);
 
     // Crear una instancia de XMLHttpRequest
     var xhr = new XMLHttpRequest();

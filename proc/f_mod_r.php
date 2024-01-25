@@ -10,7 +10,7 @@ try {
     }
     if ($id > 0) {
         // Sentencia SQL
-        $sql = "SELECT tbl_mesas.id_mesa AS mesa, tbl_salas.ubicacion_sala AS sala, CASE WHEN CURRENT_TIMESTAMP BETWEEN MAX(tbl_registros_mesas.fecha_hora_entrada) AND IFNULL(MAX(tbl_registros_mesas.fecha_hora_salida), CURRENT_TIMESTAMP) OR (MAX(tbl_registros_mesas.fecha_hora_entrada) IS NOT NULL AND MAX(tbl_registros_mesas.fecha_hora_salida) IS NULL) THEN 'OCUPADO' ELSE 'DISPONIBLE' END AS disponibilidad, COUNT(DISTINCT tbl_sillas.id_silla) AS numero_sillas, DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_entrada), '%d-%m-%Y %H:%i:%s') AS entrada, CASE WHEN SUM(tbl_registros_mesas.fecha_hora_salida IS NULL) > 0 THEN NULL ELSE DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_salida), '%d-%m-%Y %H:%i:%s') END AS salida FROM tbl_mesas INNER JOIN tbl_salas ON tbl_mesas.id_sala = tbl_salas.id_sala INNER JOIN tbl_sillas ON tbl_mesas.id_mesa = tbl_sillas.id_mesa LEFT JOIN tbl_registros_mesas ON tbl_mesas.id_mesa = tbl_registros_mesas.id_mesa  WHERE tbl_mesas.id_mesa = :id GROUP BY tbl_mesas.id_mesa, tbl_salas.ubicacion_sala;";
+        $sql = "SELECT tbl_mesas.id_mesa AS mesa, tbl_salas.ubicacion_sala AS sala, CASE WHEN CURRENT_TIMESTAMP BETWEEN MAX(tbl_registros_mesas.fecha_hora_entrada) AND IFNULL(MAX(tbl_registros_mesas.fecha_hora_salida), CURRENT_TIMESTAMP) OR (MAX(tbl_registros_mesas.fecha_hora_entrada) IS NOT NULL AND MAX(tbl_registros_mesas.fecha_hora_salida) IS NULL) THEN 'OCUPADO' ELSE 'DISPONIBLE' END AS disponibilidad, COUNT(DISTINCT tbl_sillas.id_silla) AS numero_sillas, MAX(tbl_registros_mesas.fecha_hora_entrada) AS entrada, CASE WHEN SUM(tbl_registros_mesas.fecha_hora_salida IS NULL) > 0 THEN NULL ELSE MAX(tbl_registros_mesas.fecha_hora_salida) END AS salida FROM tbl_mesas INNER JOIN tbl_salas ON tbl_mesas.id_sala = tbl_salas.id_sala INNER JOIN tbl_sillas ON tbl_mesas.id_mesa = tbl_sillas.id_mesa LEFT JOIN tbl_registros_mesas ON tbl_mesas.id_mesa = tbl_registros_mesas.id_mesa  WHERE tbl_mesas.id_mesa = :id GROUP BY tbl_mesas.id_mesa, tbl_salas.ubicacion_sala;";
 
         // Preparar la consulta
         $stmt = $conn->prepare($sql);
@@ -86,15 +86,15 @@ try {
         </select>
     </div>
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col">
         <label for="Entrada">Últ. Entrada</label>
-        <input type="datetime-local" class="form-control" id="entrada" placeholder="Fecha Entrada" value="<?php echo date('Y-m-d\TH:i:s', strtotime($resultados['entrada'])); ?>">
+        <input type="datetime-local" class="form-control" id="entrada" value="<?php echo $resultados['entrada']; ?>">
     </div>
     <div class="col">
-        <label for="Salida">Últ. Salida <?php $fecha_hoy = strval(date('Y-m-d H:i:s')); echo $fecha_hoy; ?></label>
-        <input type="datetime-local" class="form-control" id="salida" placeholder="Fecha Salida" value="<?php echo date('Y-m-d\TH:i:s', strtotime($resultados['salida'])); ?>">
+        <label for="Salida">Últ. Salida <?php $fecha_hoy = date('Y-m-d H:i:s'); echo $fecha_hoy; ?></label>
+        <input type="datetime-local" class="form-control" id="salida" value="<?php echo $resultados['salida']; ?>">
     </div>
-</div>
+</div> -->
 <button onclick="cerrar()" class="btn btn-danger">Cerrar</button>
 <button type="submit" class="btn btn-primary">Modificar</button>

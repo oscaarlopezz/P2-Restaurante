@@ -33,49 +33,47 @@ if (!isset($_SESSION['id_user'])) {
                 echo "Fallo al cambiar la ubicacion";
             }
             // FECHAS
-            // $entrada = strval($_POST['entrada']);
-            // $salida = strval($_POST['salida']);
-            // echo "entrada: " . $entrada;
-            // echo " <br> ";
-            // echo "salida: " . $salida;
-            // echo " <br> ";
-            // // Formatear la fecha en el nuevo formato
-            // $entradaF2 = DateTime::createFromFormat('Y-m-d\TH:i:s', $entrada)->format('Y-m-d H:i:s');
-            // $salidaF2 = DateTime::createFromFormat('Y-m-d\TH:i:s', $salida)->format('Y-m-d H:i:s');
+            $entrada = strval($_POST['entrada']);
+            $salida = strval($_POST['salida']);
+            echo "entrada: " . $entrada;
+            echo " <br> ";
+            echo "salida: " . $salida;
+            echo " <br> ";
+            // Formatear la fecha en el nuevo formato
+            $entradaF2 = DateTime::createFromFormat('Y-m-d H:i:s', $entrada)->format('Y-m-d H:i:s');
+            $salidaF2 = DateTime::createFromFormat('Y-m-d H:i:s', $salida)->format('Y-m-d H:i:s');
 
-            // // Imprimir la fecha formateada
-            // echo "entrada f " . $entradaF2;
-            // echo "salida f " . $salidaF2;
-            // $sqlFecha = "SELECT tbl_mesas.id_mesa AS mesa, tbl_salas.ubicacion_sala AS sala, DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_entrada), '%d/%m/%Y %H:%i:%s') AS entrada, CASE WHEN SUM(tbl_registros_mesas.fecha_hora_salida IS NULL) > 0 THEN NULL ELSE DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_salida), '%d/%m/%Y %H:%i:%s') END AS salida FROM tbl_mesas INNER JOIN tbl_salas ON tbl_mesas.id_sala = tbl_salas.id_sala INNER JOIN tbl_sillas ON tbl_mesas.id_mesa = tbl_sillas.id_mesa LEFT JOIN tbl_registros_mesas ON tbl_mesas.id_mesa = tbl_registros_mesas.id_mesa WHERE tbl_mesas.id_mesa = :id GROUP BY tbl_mesas.id_mesa, tbl_salas.ubicacion_sala;";
-            // $stmt4 = $conn->prepare($sqlFecha);
-            // $stmt4->bindParam(':id', $mesa, PDO::PARAM_INT);
-            // $stmt4->execute();
-            // $sql4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-            // $FechaE1 = "";
-            // $FechaS1 = "";
+            // Imprimir la fecha formateada
+            echo "entrada f " . $entradaF2;
+            echo "salida f " . $salidaF2;
+            $sqlFecha = "SELECT tbl_mesas.id_mesa AS mesa, tbl_salas.ubicacion_sala AS sala, DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_entrada), '%d/%m/%Y %H:%i:%s') AS entrada, CASE WHEN SUM(tbl_registros_mesas.fecha_hora_salida IS NULL) > 0 THEN NULL ELSE DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_salida), '%d/%m/%Y %H:%i:%s') END AS salida FROM tbl_mesas INNER JOIN tbl_salas ON tbl_mesas.id_sala = tbl_salas.id_sala INNER JOIN tbl_sillas ON tbl_mesas.id_mesa = tbl_sillas.id_mesa LEFT JOIN tbl_registros_mesas ON tbl_mesas.id_mesa = tbl_registros_mesas.id_mesa WHERE tbl_mesas.id_mesa = :id GROUP BY tbl_mesas.id_mesa, tbl_salas.ubicacion_sala;";
+            $stmt4 = $conn->prepare($sqlFecha);
+            $stmt4->bindParam(':id', $mesa, PDO::PARAM_INT);
+            $stmt4->execute();
+            $sql4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+            $FechaE1 = "";
+            $FechaS1 = "";
 
-            // foreach ($sql4 as $row) {
-            //     $FechaE1 = $row['entrada'];
-            //     $FechaS1 = $row['salida'];
-            // }
-            // $FechaE = DateTime::createFromFormat('d/m/Y H:i:s', $FechaE1)->format('Y-m-d H:i:s');
-            // $FechaS = DateTime::createFromFormat('d/m/Y H:i:s', $FechaS1)->format('Y-m-d H:i:s');
-            // echo "entrada2 " . $FechaE;
-            // echo " <br> ";
-            // echo "entrada3 " . $FechaE1;
-            // echo " <br> ";
-            // echo "salida2 " . $FechaS;
-            // echo " <br> ";
+            foreach ($sql4 as $row) {
+                $FechaE1 = $row['entrada'];
+                $FechaS1 = $row['salida'];
+            }
+            $FechaE = DateTime::createFromFormat('d/m/Y H:i:s', $FechaE1)->format('Y-m-d H:i:s');
+            $FechaS = DateTime::createFromFormat('d/m/Y H:i:s', $FechaS1)->format('Y-m-d H:i:s');
+            echo "entrada2 " . $FechaE;
+            echo " <br> ";
+            echo "salida2 " . $FechaS;
+            echo " <br> ";
 
-            // $sqlFecha2 = "UPDATE `tbl_registros_mesas` SET `fecha_hora_entrada` = :entrada, `fecha_hora_salida` = :salida WHERE `tbl_registros_mesas`.`id_mesa` = :id and fecha_hora_entrada = :fechae and fecha_hora_salida = :fechas;";
-            // $stmt6 = $conn->prepare($sqlFecha2);
-            // $stmt6->bindParam(':entrada', $entradaF2, PDO::PARAM_STR);
-            // $stmt6->bindParam(':salida', $salidaF2, PDO::PARAM_STR);
-            // $stmt6->bindParam(':id', $mesa, PDO::PARAM_INT);
-            // $stmt6->bindParam(':fechae', $FechaE, PDO::PARAM_STR);
-            // $stmt6->bindParam(':fechas', $FechaS, PDO::PARAM_STR);
-            // $stmt6->execute();
-            // $sql6 = $stmt6->fetchColumn();
+            $sqlFecha2 = "UPDATE `tbl_registros_mesas` SET `fecha_hora_entrada` = :entrada, `fecha_hora_salida` = :salida WHERE `tbl_registros_mesas`.`id_mesa` = :id and fecha_hora_entrada = :fechae and fecha_hora_salida = :fechas;";
+            $stmt6 = $conn->prepare($sqlFecha2);
+            $stmt6->bindParam(':entrada', $entradaF2, PDO::PARAM_STR);
+            $stmt6->bindParam(':salida', $salidaF2, PDO::PARAM_STR);
+            $stmt6->bindParam(':id', $mesa, PDO::PARAM_INT);
+            $stmt6->bindParam(':fechae', $FechaE, PDO::PARAM_STR);
+            $stmt6->bindParam(':fechas', $FechaS, PDO::PARAM_STR);
+            $stmt6->execute();
+            $sql6 = $stmt6->fetchColumn();
             // SELECT tbl_mesas.id_mesa AS mesa, tbl_salas.ubicacion_sala AS sala, DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_entrada), '%d/%m/%Y %H:%i:%s') AS entrada, CASE WHEN SUM(tbl_registros_mesas.fecha_hora_salida IS NULL) > 0 THEN NULL ELSE DATE_FORMAT(MAX(tbl_registros_mesas.fecha_hora_salida), '%d/%m/%Y %H:%i:%s') END AS salida FROM tbl_mesas INNER JOIN tbl_salas ON tbl_mesas.id_sala = tbl_salas.id_sala INNER JOIN tbl_sillas ON tbl_mesas.id_mesa = tbl_sillas.id_mesa LEFT JOIN tbl_registros_mesas ON tbl_mesas.id_mesa = tbl_registros_mesas.id_mesa GROUP BY tbl_mesas.id_mesa, tbl_salas.ubicacion_sala;
             $sillas = intval($_POST['sillas']);
             // echo $sillas;

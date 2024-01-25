@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Tu Página con Bootstrap</title>
+    <title>Usuarios</title>
 
     <!-- Enlaces CDN de Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/crud.css">
 </head>
 <body>
+<a href="crud_recursos.php">Recursos</a>
     <div class="crud" id="crud">
         <div id="container">
         <form id="formularioModificar" onsubmit="event.preventDefault(); enviarDatos();">
         </form>
         </div>
-        <div class="tabla">
+        <div class="tabla" id="tabla">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -111,16 +112,19 @@
         crud = document.getElementById("crud");
         crud.appendChild(button);
         var cont = document.getElementById("container");
+        var tabla = document.getElementById("tabla");
         var form = document.getElementById("formularioModificar");
         // Añadir estilos al contenedor
         if (id == "close") {
             cont.style.width = "0";
             cont.style.height = "0";
+            tabla.style.height = "100vh";
             cont.style.float = "none";
         }else{
             cont.style.width = "100%";
             cont.style.height = "30vh";
             cont.style.float = "left";
+            tabla.style.height = "70vh";
         }
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "f_mod.php", true);

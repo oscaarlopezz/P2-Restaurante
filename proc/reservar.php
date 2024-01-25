@@ -86,6 +86,9 @@ if (!isset($_SESSION['id_user'])) {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         console.log(xhr.responseText);
+                        // Redirigir a otra página
+                        window.location.href = "../home.php";
+
                         // Aquí puedes manejar la respuesta del servidor
                     } else {
                         console.error("Error en la solicitud AJAX");
